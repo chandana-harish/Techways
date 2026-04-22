@@ -21,7 +21,7 @@ const UpdateCourse = () => {
     const fetchCourse = async () => {
         try {
             const token = localStorage.getItem("token");
-            const response = await axios.get(`http://localhost:8080/course/${id}`, {
+            const response = await axios.get(`http://54.152.143.62:8080/course/${id}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -43,7 +43,7 @@ const UpdateCourse = () => {
         e.preventDefault();
         try {
             const token = localStorage.getItem("token");
-            await axios.put(`http://localhost:8080/course/update/${id}`, {
+            await axios.put(`http://54.152.143.62:8080/course/update/${id}`, {
                 courseId: parseInt(id),
                 ...course
             }, {
