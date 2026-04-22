@@ -24,7 +24,7 @@ const Login = () => {
         const { email, password } = formData;
 
         try {
-            const response = await axios.post("http://backend:8080/auth/login", { email, password });
+            const response = await axios.post("http://localhost:8080/auth/login", { email, password });
             const { token, statusCode, message } = response.data;
 
             switch (statusCode) {
