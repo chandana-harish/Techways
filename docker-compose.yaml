@@ -20,35 +20,131 @@ services:
       interval: 10s
       retries: 5
 
-  backend:
-    build: ./Backend
-    container_name: backend-app
-    restart: always
+  auth-service:
+    build: ./auth-service
+    container_name: auth-service
     ports:
-      - "8080:8080"
+      - "8081:8080"
     depends_on:
       mysql:
         condition: service_healthy
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/techways?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/techways
       SPRING_DATASOURCE_USERNAME: appuser
       SPRING_DATASOURCE_PASSWORD: apppass
-      SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.cj.jdbc.Driver
-      SPRING_JPA_HIBERNATE_DDL_AUTO: update
 
+  question-service:
+    build: ./question-service
+    container_name: question-service
+    ports:
+      - "8082:8080"
+    depends_on:
+      - mysql
+      - service-registry
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/techways
+      SPRING_DATASOURCE_USERNAME: appuser
+      SPRING_DATASOURCE_PASSWORD: apppass
+
+
+  quiz-service:
+    build: ./quiz-service
+    container_name: quiz-service
+    ports:
+      - "8083:8080"
+    depends_on:
+      - mysql
+      - service-registry
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/techways
+      SPRING_DATASOURCE_USERNAME: appuser
+      SPRING_DATASOURCE_PASSWORD: apppass
+
+  # 📡 SERVICE REGISTRY (EUREKA)
+  service-registry:
+    build: ./service-registry
+    container_name: service-registry
+    ports:
+      - "8761:8761"
+
+  # 🌐 API GATEWAY
+  api-gateway:
+    build: ./api-gateway
+    container_name: api-gateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      - service-registry
+      - auth-service
+      - question-service
+      - quiz-service
+
+  # 🎨 FRONTEND
   frontend:
     build: ./Frontend
     container_name: frontend-app
-    restart: always
     ports:
       - "3000:3000"
     depends_on:
-      - backend
+      - api-gateway
     environment:
       CHOKIDAR_USEPOLLING: "true"
 
 volumes:
   mysql-data:
+# version: "3.8"
+
+# services:
+
+#   mysql:
+#     image: mysql:8
+#     container_name: mysql-db
+#     restart: always
+#     environment:
+#       MYSQL_ROOT_PASSWORD: Akash@123
+#       MYSQL_DATABASE: techways
+#       MYSQL_USER: appuser
+#       MYSQL_PASSWORD: apppass
+#     ports:
+#       - "3306:3306"
+#     volumes:
+#       - mysql-data:/var/lib/mysql
+#     healthcheck:
+#       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-pAkash@123"]
+#       interval: 10s
+#       retries: 5
+
+#   backend:
+#     build: ./Backend
+#     container_name: backend-app
+#     restart: always
+#     ports:
+#       - "8080:8080"
+#     depends_on:
+#       mysql:
+#         condition: service_healthy
+#     environment:
+#       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/techways?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+#       SPRING_DATASOURCE_USERNAME: appuser
+#       SPRING_DATASOURCE_PASSWORD: apppass
+#       SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.cj.jdbc.Driver
+#       SPRING_JPA_HIBERNATE_DDL_AUTO: update
+
+#   frontend:
+#     build: ./Frontend
+#     container_name: frontend-app
+#     restart: always
+#     ports:
+#       - "3000:3000"
+#     depends_on:
+#       - backend
+#     environment:
+#       CHOKIDAR_USEPOLLING: "true"
+
+# volumes:
+#   mysql-data:
+
+
  # version: "3.8"
 
 # services:
