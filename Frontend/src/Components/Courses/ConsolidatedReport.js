@@ -19,7 +19,7 @@ const ConsolidatedReport = () => {
     const fetchCourses = async () => {
         try {
             const token = localStorage.getItem('token');
-            const res = await axios.get("http://54.144.95.44:8080/course/all", {
+            const res = await axios.get("http://13.233.99.93:8080/course/all", {
                 headers: { Authorization: `Bearer ${token}` },
             });
             setCourses(res.data?.courseList || []);
