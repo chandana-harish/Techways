@@ -21,7 +21,7 @@ services:
       retries: 5
 
   auth-service:
-    build: ./auth-service
+    build: ./Backend
     container_name: auth-service
     ports:
       - "8081:8080"
@@ -34,7 +34,7 @@ services:
       SPRING_DATASOURCE_PASSWORD: apppass
 
   question-service:
-    build: ./question-service
+    build: ./Microservice/question-service
     container_name: question-service
     ports:
       - "8082:8080"
@@ -48,7 +48,7 @@ services:
 
 
   quiz-service:
-    build: ./quiz-service
+    build: ./Microservice/quiz-service
     container_name: quiz-service
     ports:
       - "8083:8080"
@@ -62,7 +62,7 @@ services:
 
   # 📡 SERVICE REGISTRY (EUREKA)
   service-registry:
-    build: ./service-registry
+    build: ./Microservice/service-registry
     container_name: service-registry
     ports:
       - "8761:8761"
