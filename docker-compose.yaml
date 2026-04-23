@@ -69,7 +69,7 @@ services:
 
   # 🌐 API GATEWAY
   api-gateway:
-    build: ./api-gateway
+    build: ./Microservice/api-gateway
     container_name: api-gateway
     ports:
       - "8080:8080"
