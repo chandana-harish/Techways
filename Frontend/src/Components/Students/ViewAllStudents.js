@@ -33,7 +33,7 @@ const ViewStudents = () => {
 
             try {
                 const response = await axios.get(
-                    `http://13.233.99.93:8080/student/search?keyword=${value}`,
+                    `http://13.232.235.33:8080/student/search?keyword=${value}`,
                     {
                         headers: {
                             Authorization: `Bearer ${token}`,
@@ -58,7 +58,7 @@ const ViewStudents = () => {
     const getAllStudents = async () => {
         try {
             const token = localStorage.getItem("token");
-            const response = await axios.get("http://13.233.99.93:8080/student/get-all", {
+            const response = await axios.get("http://13.232.235.33:8080/student/get-all", {
                 headers: { Authorization: `Bearer ${token}` },
             });
             setStudents(response.data.studentList || []);
@@ -87,7 +87,7 @@ const ViewStudents = () => {
     const handleViewProfile = async (id) => {
         try {
             const token = localStorage.getItem("token");
-            const response = await axios.get(`http://13.233.99.93:8080/student/get/${id}`, {
+            const response = await axios.get(`http://13.232.235.33:8080/student/get/${id}`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
             setSelectedStudent(response.data.student);

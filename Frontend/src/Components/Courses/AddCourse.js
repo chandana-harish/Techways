@@ -25,7 +25,7 @@ const AddCourse = () => {
             }
 
             const response = await axios.post(
-                "http://13.233.99.93:8080/course/add",
+                "http://13.232.235.33:8080/course/add",
                 {
                     name,
                     code,

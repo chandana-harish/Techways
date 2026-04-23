@@ -1,7 +1,7 @@
 import axios from "axios"
 
 class UserService {
-    static BASR_URL = "http://13.233.99.93:8080"
+    static BASR_URL = "http://13.232.235.33:8080"
 
     static async handelLogin(email, password) {
         try {

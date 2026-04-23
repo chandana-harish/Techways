@@ -11,7 +11,7 @@ const ViewAllCourses = () => {
     const fetchAllCourses = async () => {
         try {
             const token = localStorage.getItem("token");
-            const response = await axios.get("http://13.233.99.93:8080/course/all", {
+            const response = await axios.get("http://13.232.235.33:8080/course/all", {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
